@@ -97,6 +97,18 @@ main, .site-footer { overflow-x: clip; }
 .btn-gold:hover::before, .btn-navy:hover::before { animation: shine .8s ease; }
 .btn:active { transform: translateY(1px); }
 
+/* כפתורי מסגרת (וואטסאפ): הלבן "נשפך" פנימה מימין לשמאל במקום להתחלף בבת אחת */
+.btn-outline {
+  background: linear-gradient(#fff, #fff) no-repeat right center / 0% 100%;
+  transition: background-size .5s var(--ease-out), color .35s ease, border-color .35s ease;
+}
+.btn-outline:hover, .btn-outline:focus-visible {
+  background-color: transparent; background-image: linear-gradient(#fff, #fff); background-repeat: no-repeat;
+  background-position: right center; background-size: 100% 100%; color: var(--navy); border-color: #fff;
+}
+.btn-outline svg { transition: transform .4s var(--ease-out); }
+.btn-outline:hover svg { transform: scale(1.15) rotate(-8deg); }
+
 /* ---- תמונות ---- */
 .photo-row picture, .side-photo, .office-img { overflow: hidden; display: block; }
 .photo-row img, .side-photo img, .office-img img { transition: transform .8s var(--ease-out); }
