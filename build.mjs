@@ -2,6 +2,7 @@
 // הרצה: node build.mjs
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, rmSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 
 const SRC = "src";
 const OUT = "dist";
@@ -11,6 +12,13 @@ const SITE_URL = process.env.SITE_URL || "";
 const BASE_PATH = (process.env.BASE_PATH || "").replace(/\/$/, "");
 // אתר תצוגה – לא לאינדוקס בגוגל
 const PREVIEW = process.env.PREVIEW === "1";
+
+// גרסה לפי תוכן הקבצים – כל שינוי ב-CSS/JS מכריח את הדפדפן לטעון מחדש (במקום עותק ישן מהמטמון)
+const version = (f) => createHash("sha1").update(readFileSync(join(SRC, f))).digest("hex").slice(0, 8);
+const ASSET_VERSIONS = {
+  "/assets/css/style.css": version("assets/css/style.css"),
+  "/assets/js/main.js": version("assets/js/main.js"),
+};
 
 const layout = readFileSync(join(SRC, "layout.html"), "utf8");
 const partials = Object.fromEntries(
@@ -47,6 +55,7 @@ for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".ht
     .replace("{{content}}", body);
   // סימון הקישור הפעיל בתפריט
   html = html.replace(/data-nav="([\w-]+)"/g, (s, k) => (k === meta.nav ? `${s} aria-current="page"` : s));
+  for (const [p, v] of Object.entries(ASSET_VERSIONS)) html = html.replaceAll(`"${p}"`, `"${p}?v=${v}"`);
   // קישורים פנימיים מוחלטים ("/...") מקבלים את תת-הנתיב
   if (BASE_PATH) {
     html = html
