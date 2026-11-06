@@ -1,0 +1,12 @@
+# פרטים אישיים – לעולם לא להעלות
+secrets.txt
+
+# נבנה אוטומטית
+dist/
+
+# תמונות מקור (לא נדרשות לאתר החי – העותקים המעובדים נמצאים ב-src/assets/img)
+photos/
+
+node_modules/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,39 @@
+<form class="contact-form" name="contact" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="company">
+  <input type="hidden" name="form-name" value="contact">
+  <p class="hp" aria-hidden="true"><label>אין למלא שדה זה <input name="company" tabindex="-1" autocomplete="off"></label></p>
+  <div class="form-grid">
+    <div class="field">
+      <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required>
+    </div>
+    <div class="field">
+      <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required>
+    </div>
+    <div class="field">
+      <label for="cf-email">אימייל</label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr">
+    </div>
+    <div class="field">
+      <label for="cf-topic">נושא הפנייה</label>
+      <select id="cf-topic" name="topic">
+        <option value="">בחרו נושא</option>
+        <option>ביטוח לאומי</option>
+        <option>דיני עבודה</option>
+        <option>אחר</option>
+      </select>
+    </div>
+    <div class="field field-full">
+      <label for="cf-msg">ספרו לנו בקצרה במה מדובר</label>
+      <textarea id="cf-msg" name="message" rows="4"></textarea>
+    </div>
+    <div class="field field-full field-check">
+      <input id="cf-consent" name="consent" type="checkbox" value="yes" required>
+      <label for="cf-consent">קראתי את <a href="/privacy" target="_blank" rel="noopener">מדיניות הפרטיות</a> ואני מאשר/ת שהפרטים ישמשו לחזרה אליי בנוגע לפנייה <span class="req" aria-hidden="true">*</span></label>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-gold">שליחת הפרטים<span class="btn-arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></button>
+    <p class="form-note">שדות המסומנים ב-<span aria-hidden="true">*</span><span class="sr-only">כוכבית</span> הם חובה. נחזור אליכם בהקדם.</p>
+  </div>
+</form>
