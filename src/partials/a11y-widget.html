@@ -1,0 +1,26 @@
+<div class="a11y">
+  <button type="button" class="a11y-toggle" aria-expanded="false" aria-controls="a11y-panel">
+    <svg aria-hidden="true"><use href="#i-a11y"/></svg>
+    <span class="sr-only">תפריט נגישות</span>
+  </button>
+  <div id="a11y-panel" class="a11y-panel" role="region" aria-label="תפריט נגישות" hidden>
+    <div class="a11y-head">
+      <h2 class="a11y-title">תפריט נגישות</h2>
+      <button type="button" class="a11y-close" aria-label="סגירת תפריט הנגישות">×</button>
+    </div>
+    <div class="a11y-font" role="group" aria-label="גודל טקסט">
+      <button type="button" data-a11y-font="-1" aria-label="הקטנת טקסט">א-</button>
+      <span class="a11y-font-label">גודל טקסט</span>
+      <button type="button" data-a11y-font="1" aria-label="הגדלת טקסט">א+</button>
+    </div>
+    <ul class="a11y-options">
+      <li><button type="button" data-a11y="contrast" aria-pressed="false">ניגודיות גבוהה</button></li>
+      <li><button type="button" data-a11y="links" aria-pressed="false">הדגשת קישורים</button></li>
+      <li><button type="button" data-a11y="readable" aria-pressed="false">גופן קריא</button></li>
+      <li><button type="button" data-a11y="spacing" aria-pressed="false">ריווח טקסט</button></li>
+      <li><button type="button" data-a11y="nomotion" aria-pressed="false">עצירת אנימציות</button></li>
+    </ul>
+    <button type="button" class="a11y-reset">איפוס הגדרות</button>
+    <a href="/accessibility" class="a11y-statement">הצהרת נגישות</a>
+  </div>
+</div>

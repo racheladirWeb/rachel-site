@@ -21,6 +21,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <script>
+    // החלת הגדרות נגישות שמורות לפני ציור הדף (מונע הבהוב)
+    try { var s = JSON.parse(localStorage.getItem("a11y") || "{}"), h = document.documentElement;
+      if (s.font) h.setAttribute("data-a11y-font", s.font);
+      (s.on || []).forEach(function (k) { h.classList.add("a11y-" + k); }); } catch (e) {}
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,6 +57,7 @@
   <a class="wa-float" href="https://wa.me/972546868040" target="_blank" rel="noopener" aria-label="שליחת הודעת וואטסאפ (נפתח בחלון חדש)">
     <svg aria-hidden="true"><use href="#i-wa"/></svg>
   </a>
+  {{> a11y-widget}}
   <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
