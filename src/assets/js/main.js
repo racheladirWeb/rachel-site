@@ -77,10 +77,58 @@
   })();
 
   // אנימציית הופעה
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    document.documentElement.classList.contains("a11y-nomotion");
+
+  // השהיה מדורגת לפריטים בתוך קבוצה (כרטיסים, שלבים, רשימות)
+  document.querySelectorAll(".stagger").forEach(function (group) {
+    group.querySelectorAll(":scope > .reveal, :scope > li > .reveal, :scope > .reveal-child").forEach(function (el, i) {
+      el.style.transitionDelay = (i * 0.12) + "s";
+    });
+  });
+
+  // ספירה עולה למספרים (למשל +20)
+  document.querySelectorAll("[data-count]").forEach(function (el) {
+    var target = Number(el.getAttribute("data-count")), prefix = el.getAttribute("data-prefix") || "";
+    if (reduced) return;
+    var start = null, dur = 1400, delay = 900;
+    el.textContent = prefix + "0";
+    function step(t) {
+      if (start === null) start = t + delay;
+      var p = Math.min(1, Math.max(0, (t - start) / dur));
+      el.textContent = prefix + Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+
+  // פס התקדמות גלילה
+  var bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  bar.setAttribute("aria-hidden", "true");
+  document.body.appendChild(bar);
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = "scaleX(" + (h > 0 ? scrollY / h : 0) + ")";
+      ticking = false;
+    });
+  }, { passive: true });
+
   var items = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if ("IntersectionObserver" in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        el.classList.add("in");
+        io.unobserve(el);
+        // אחרי ההופעה – מבטלים את ההשהיה כדי שאפקטי ריחוף יגיבו מיד
+        if (el.style.transitionDelay) setTimeout(function () { el.style.transitionDelay = ""; }, 1600);
+      });
     }, { rootMargin: "0px 0px -8% 0px" });
     items.forEach(function (el) { io.observe(el); });
   } else {

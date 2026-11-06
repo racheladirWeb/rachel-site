@@ -17,6 +17,7 @@ const PREVIEW = process.env.PREVIEW === "1";
 const version = (f) => createHash("sha1").update(readFileSync(join(SRC, f))).digest("hex").slice(0, 8);
 const ASSET_VERSIONS = {
   "/assets/css/style.css": version("assets/css/style.css"),
+  "/assets/css/motion.css": version("assets/css/motion.css"),
   "/assets/js/main.js": version("assets/js/main.js"),
 };
 

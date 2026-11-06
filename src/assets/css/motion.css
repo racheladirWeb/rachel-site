@@ -1,0 +1,154 @@
+/* ===================== הנפשות ומעברים ===================== */
+:root { --ease-out: cubic-bezier(.2,.7,.2,1); --ease-io: cubic-bezier(.65,0,.25,1); }
+
+/* מעבר רך בין עמודים (בדפדפנים שתומכים) */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .28s ease both; }
+::view-transition-new(root) { animation: vt-in .38s var(--ease-out) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@keyframes archReveal { from { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); } to { clip-path: inset(0 0 0 0 round 999px 999px 0 0); } }
+@keyframes imgSettle { from { transform: scale(1.18); } to { transform: scale(1); } }
+@keyframes frameIn { from { opacity: 0; transform: translate(-14px, 14px); } to { opacity: 1; transform: none; } }
+@keyframes popIn { 0% { opacity: 0; transform: translateY(16px) scale(.9); } 70% { transform: translateY(-3px) scale(1.02); } 100% { opacity: 1; transform: none; } }
+@keyframes glowDrift { from { transform: translate(-10%, -6%) scale(1); } to { transform: translate(12%, 8%) scale(1.15); } }
+@keyframes shine { from { transform: translateX(120%) skewX(-20deg); } to { transform: translateX(-220%) skewX(-20deg); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(31,143,78,.5); } 70% { box-shadow: 0 0 0 16px rgba(31,143,78,0); } 100% { box-shadow: 0 0 0 0 rgba(31,143,78,0); } }
+@keyframes bandShine { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+
+/* ---- כניסת אזור הפתיחה ---- */
+.hero, .page-hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero::after, .page-hero::after {
+  content: ""; position: absolute; z-index: -1; width: 70vmax; height: 70vmax; top: -30vmax; left: -20vmax; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(212,180,131,.16), transparent 70%);
+  animation: glowDrift 18s ease-in-out infinite alternate;
+}
+.hero-inner > div:first-child > * { animation: fadeUp .9s var(--ease-out) both; }
+.hero-inner > div:first-child > :nth-child(1) { animation-delay: .1s; }
+.hero-inner > div:first-child > :nth-child(2) { animation-delay: .22s; }
+.hero-inner > div:first-child > :nth-child(3) { animation-delay: .36s; }
+.hero-inner > div:first-child > :nth-child(4) { animation-delay: .5s; }
+.hero-inner > div:first-child > :nth-child(5) { animation-delay: .64s; }
+.hero-photo .arch { animation: archReveal 1.2s .15s var(--ease-io) both; }
+.hero-photo .arch img { animation: imgSettle 1.8s .15s var(--ease-out) both; }
+.hero-photo .arch-frame::before { animation: frameIn 1s .9s var(--ease-out) both; }
+.hero-badge { animation: popIn .7s 1.15s var(--ease-out) both; }
+.page-hero .container > * { animation: fadeUp .8s var(--ease-out) both; }
+.page-hero .container > :nth-child(2) { animation-delay: .12s; }
+.page-hero .container > :nth-child(3) { animation-delay: .24s; }
+
+/* ---- סוגי הופעה בגלילה ---- */
+.reveal { transition-timing-function: var(--ease-out); }
+.reveal.zoom { transform: scale(.94); }
+.intro-grid > .reveal:first-child { transform: translateX(40px); }
+.intro-grid > .reveal:last-child { transform: translateX(-40px); }
+.about-photo.reveal { transform: translateY(40px) scale(.97); }
+.reveal.zoom.in, .intro-grid > .reveal.in, .about-photo.reveal.in { transform: none; }
+@media (max-width: 860px) {
+  .intro-grid > .reveal:first-child, .intro-grid > .reveal:last-child { transform: translateY(24px); }
+  .intro-grid > .reveal.in { transform: none; }
+}
+/* שום הנפשה לא תדחוף את הדף הצידה */
+main, .site-footer { overflow-x: clip; }
+.about-photo.reveal .arch-frame::before { opacity: 0; transform: translate(-14px, 14px); transition: opacity .8s .5s, transform .8s .5s var(--ease-out); }
+.about-photo.reveal.in .arch-frame::before { opacity: 1; transform: none; }
+
+/* קו זהב שנמתח ליד כותרות המשנה */
+.section-head.reveal .eyebrow::before, .section-head.reveal .eyebrow::after { transform: scaleX(0); transition: transform .7s .3s var(--ease-out); }
+.section-head.reveal .eyebrow::before { transform-origin: left; }
+.section-head.reveal .eyebrow::after { transform-origin: right; }
+.section-head.reveal.in .eyebrow::before, .section-head.reveal.in .eyebrow::after { transform: scaleX(1); }
+
+/* שלבי התהליך: הקו נמתח והעיגולים קופצים */
+.step::after { transform: scaleX(0); transform-origin: right; transition: transform .9s var(--ease-out); transition-delay: inherit; }
+.step.in::after { transform: scaleX(1); }
+.step::before { transform: scale(.6); transition: transform .5s var(--ease-out), background .3s, color .3s; }
+.step.in::before { transform: scale(1); }
+.step:hover::before { background: var(--navy); color: var(--gold-light); }
+
+/* ---- כרטיסים ---- */
+.practice-card { overflow: hidden; }
+.practice-card::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 3px; background: var(--gold);
+  transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-out);
+}
+.practice-card:hover::after { transform: scaleX(1); }
+.practice-icon { transition: background .35s, color .35s, transform .45s var(--ease-out); }
+.practice-card:hover .practice-icon { background: var(--gold); color: var(--navy-deep); transform: rotate(-8deg) scale(1.06); }
+.why-card { transition: transform .35s var(--ease-out), background .35s, opacity .7s; }
+.why-card:hover { transform: translateY(-6px); background: rgba(255,255,255,.08); }
+.why-card svg { transition: transform .5s var(--ease-out); }
+.why-card:hover svg { transform: scale(1.15) rotate(-6deg); }
+.topic { transition: transform .35s var(--ease-out), box-shadow .35s, opacity .7s; }
+.topic.in:hover { transform: translateX(-6px); box-shadow: var(--shadow); }
+.cred { transition: background .35s, opacity .7s, transform .7s var(--ease-out); }
+.cred:hover { background: rgba(255,255,255,.04); }
+
+/* ---- כפתורים: הברקה עוברת ---- */
+.btn { position: relative; overflow: hidden; }
+.btn-gold::before, .btn-navy::before {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  transform: translateX(120%) skewX(-20deg);
+}
+.btn-gold:hover::before, .btn-navy:hover::before { animation: shine .8s ease; }
+.btn:active { transform: translateY(1px); }
+
+/* ---- תמונות ---- */
+.photo-row picture, .side-photo, .office-img { overflow: hidden; display: block; }
+.photo-row img, .side-photo img, .office-img img { transition: transform .8s var(--ease-out); }
+.photo-row picture:hover img, .side-photo:hover img, .office-img:hover img { transform: scale(1.05); }
+
+/* ---- כותרת עליונה מתכווצת בגלילה ---- */
+.header-inner { transition: min-height .3s var(--ease-out); }
+.brand img { transition: width .3s, height .3s; }
+@media (min-width: 1001px) {
+  .site-header.scrolled .header-inner { min-height: 68px; }
+  .site-header.scrolled .brand img { width: 44px; height: 44px; }
+  .site-nav ul a { position: relative; border-bottom-color: transparent !important; }
+  .site-nav ul a::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: right; transition: transform .3s var(--ease-out);
+  }
+  .site-nav ul a:hover::after, .site-nav ul a[aria-current="page"]::after { transform: scaleX(1); }
+}
+@media (max-width: 1000px) {
+  .site-nav.open { animation: fadeDown .3s var(--ease-out) both; }
+  .step::after { display: none; }
+}
+
+/* ---- שאלות נפוצות ---- */
+.faq summary { transition: color .25s; }
+.faq summary:hover { color: var(--gold-text); }
+.faq summary::after { transition: transform .35s var(--ease-out), background .25s, color .25s; }
+.faq details[open] summary::after { transform: translateY(-50%) rotate(180deg); background: var(--navy); color: #fff; }
+.faq details[open] .answer { animation: fadeDown .4s var(--ease-out) both; }
+
+/* ---- וואטסאפ, פס זהב ופס התקדמות ---- */
+.wa-float { animation: pulse 2.6s 2s infinite; }
+.cta-band { position: relative; overflow: hidden; isolation: isolate; }
+.cta-band::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%);
+  background-size: 250% 100%; animation: bandShine 7s ease-in-out infinite;
+}
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 200; background: var(--gold); transform: scaleX(0); transform-origin: right; pointer-events: none; }
+
+/* ---- בלי תנועה: לפי הגדרת המערכת או תפריט הנגישות ---- */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .step::after, .step::before, .section-head.reveal .eyebrow::before, .section-head.reveal .eyebrow::after { transform: none !important; }
+  .about-photo.reveal .arch-frame::before { opacity: 1 !important; transform: none !important; }
+  .scroll-progress { display: none; }
+}
+html.a11y-nomotion::view-transition-group(*), html.a11y-nomotion::view-transition-old(*), html.a11y-nomotion::view-transition-new(*) { animation: none !important; }
+html.a11y-nomotion .reveal { transform: none !important; }
+html.a11y-nomotion .step::after, html.a11y-nomotion .step::before,
+html.a11y-nomotion .section-head.reveal .eyebrow::before, html.a11y-nomotion .section-head.reveal .eyebrow::after { transform: none !important; }
+html.a11y-nomotion .about-photo.reveal .arch-frame::before { opacity: 1 !important; transform: none !important; }
+html.a11y-nomotion .scroll-progress { display: none; }
