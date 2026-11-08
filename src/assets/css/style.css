@@ -471,3 +471,32 @@ html.a11y-contrast .btn { border: 2px solid #fff !important; }
 html.a11y-contrast input, html.a11y-contrast select, html.a11y-contrast textarea { border: 2px solid #fff !important; }
 html.a11y-contrast .arch { border: 2px solid #fff; }
 html.a11y-contrast .wa-float { background-color: #1f8f4e !important; }
+
+/* ===================== ידע מקצועי ===================== */
+.h1-sub { display: block; font-size: .5em; font-weight: 500; color: var(--gold-light); margin-top: .35em; }
+.kn-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; }
+.kn-chip { font: inherit; font-size: 1rem; padding: .45em 1.1em; border: 1px solid var(--line); background: #fff; color: var(--navy); cursor: pointer; transition: background .25s, color .25s, border-color .25s; }
+.kn-chip:hover { border-color: var(--gold); }
+.kn-chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.kn-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 22px; }
+.kn-card { position: relative; background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--gold); padding: 26px 28px; display: flex; flex-direction: column; transition: transform .35s, box-shadow .35s; }
+.kn-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.kn-card[hidden] { display: none; }
+.kn-card h2 { font-size: 1.4rem; margin: .3em 0 .5em; }
+.kn-card h2 a { color: var(--navy); text-decoration: none; }
+.kn-card h2 a::after { content: ""; position: absolute; inset: 0; } /* כל הכרטיס לחיץ */
+.kn-card h2 a:focus-visible { outline: none; }
+.kn-card:focus-within { outline: 3px solid var(--gold); outline-offset: 3px; }
+.kn-card p { color: var(--muted); margin: 0 0 1.2rem; }
+.kn-card .link-arrow { margin-top: auto; }
+.kn-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .4em 1em; font-size: .95rem; margin: 0; color: var(--muted); }
+.page-hero .kn-meta { color: #d3d9e6; margin-top: .6rem; }
+.kn-cat { background: var(--cream); color: var(--gold-text); font-weight: 600; padding: .15em .7em; }
+.page-hero .kn-cat { background: rgba(255,255,255,.1); color: var(--gold-light); }
+.kn-empty { text-align: center; max-width: 640px; margin-inline: auto; padding: 3rem 1.5rem; border: 1px dashed var(--gold); }
+.kn-empty p { color: var(--muted); margin: 0; }
+.kn-article > .note { margin-top: 2.5rem; }
+.topic p + p { margin-top: .6em; }
+.field-note { margin: .5rem 0 0; font-size: .92rem; color: var(--muted); }
+.disclaimer p { margin: 0 0 .4rem; }
+.hero h1 em { white-space: nowrap; }

@@ -76,6 +76,18 @@
     apply();
   })();
 
+  // ידע מקצועי: סינון לפי סוג תוכן
+  var chips = document.querySelectorAll("[data-kn-filter]");
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var cat = chip.getAttribute("data-kn-filter");
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+      document.querySelectorAll(".kn-card").forEach(function (card) {
+        card.hidden = !!cat && card.getAttribute("data-kn-cat") !== cat;
+      });
+    });
+  });
+
   // אנימציית הופעה
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
     document.documentElement.classList.contains("a11y-nomotion");
