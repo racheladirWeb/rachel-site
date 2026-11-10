@@ -2,6 +2,12 @@
   command = "node build.mjs"
   publish = "dist"
 
+# עד שיהיה דומיין: האתר ב-Netlify לא נכנס לגוגל (PREVIEW), אבל הטופס פעיל.
+# כשיהיה דומיין – למחוק את PREVIEW ולהוסיף SITE_URL = "https://הדומיין"
+[build.environment]
+  NODE_VERSION = "22"
+  PREVIEW = "1"
+
 [[headers]]
   for = "/assets/*"
   [headers.values]
