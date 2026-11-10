@@ -502,3 +502,6 @@ html.a11y-contrast .wa-float { background-color: #1f8f4e !important; }
 .hero h1 em { white-space: nowrap; }
 .form-offline { margin: 20px 0 0; padding: 14px 18px; background: #fff8e6; border-inline-start: 4px solid var(--gold); color: var(--ink, #1b2b4b); }
 .contact-form button[disabled] { opacity: .55; cursor: not-allowed; }
+/* בתוכנית החינמית של Netlify מופיע בתחתית המסך תג "Powered by Netlify" – מרימים מעליו את כפתורי הנגישות והוואטסאפ */
+body:has(#nl-badge-frame) .a11y-toggle, body:has(#nl-badge-frame) .wa-float { bottom: 86px; }
+body:has(#nl-badge-frame) .a11y-panel { bottom: 154px; max-height: calc(100vh - 190px); }
