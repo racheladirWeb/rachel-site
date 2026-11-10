@@ -500,3 +500,5 @@ html.a11y-contrast .wa-float { background-color: #1f8f4e !important; }
 .field-note { margin: .5rem 0 0; font-size: .92rem; color: var(--muted); }
 .disclaimer p { margin: 0 0 .4rem; }
 .hero h1 em { white-space: nowrap; }
+.form-offline { margin: 20px 0 0; padding: 14px 18px; background: #fff8e6; border-inline-start: 4px solid var(--gold); color: var(--ink, #1b2b4b); }
+.contact-form button[disabled] { opacity: .55; cursor: not-allowed; }

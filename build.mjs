@@ -36,6 +36,16 @@ mkdirSync(OUT, { recursive: true });
 cpSync(join(SRC, "assets"), join(OUT, "assets"), { recursive: true });
 for (const f of ["_redirects", "robots.txt"]) if (existsSync(join(SRC, f))) cpSync(join(SRC, f), join(OUT, f));
 
+// טופס יצירת הקשר עובד רק ב-Netlify. באתר התצוגה (GitHub Pages) הטופס מושבת ומוצגת הפניה לטלפון ולוואטסאפ,
+// כדי שאף פנייה לא תלך לאיבוד. אפשר לכפות הפעלה עם FORMS=1.
+const FORMS_LIVE = process.env.NETLIFY === "true" || process.env.FORMS === "1" || !PREVIEW;
+if (!FORMS_LIVE) {
+  partials["contact-form"] = partials["contact-form"]
+    .replace('<div class="form-actions">', `<p class="form-offline" role="note"><strong>הטופס אינו פעיל עדיין.</strong> בינתיים אפשר לפנות בטלפון <a href="tel:+972546868040">054-6868040</a>, <a href="https://wa.me/972546868040" target="_blank" rel="noopener">בוואטסאפ</a> או במייל <a href="mailto:rachel@adir-s.co.il">rachel@adir-s.co.il</a>.</p>
+  <div class="form-actions">`)
+    .replace('<button type="submit" class="btn btn-gold">', '<button type="submit" class="btn btn-gold" disabled>');
+}
+
 const urls = [];
 
 function parse(file) {
@@ -58,6 +68,7 @@ function render(meta, body, path, outFile) {
     .replaceAll("{{canonical}}", SITE_URL ? `<link rel="canonical" href="${SITE_URL}${path}">` : "")
     .replaceAll("{{ogUrl}}", SITE_URL ? `<meta property="og:url" content="${SITE_URL}${path}">` : "")
     .replaceAll("{{ogImage}}", (SITE_URL || "") + "/assets/img/og-image.jpg")
+    .replaceAll("{{siteUrl}}", SITE_URL)
     .replace("{{content}}", () => body);
   // סימון הקישור הפעיל בתפריט
   html = html.replace(/data-nav="([\w-]+)"/g, (s, k) => (k === meta.nav ? `${s} aria-current="page"` : s));
@@ -129,10 +140,16 @@ ${a.body}
   render({ title: `${a.title} | עו״ד רחל אדיר`, description: a.summary || "", nav: "knowledge" }, body, `/knowledge/${a.slug}`, `knowledge/${a.slug}.html`);
 }
 
+// עד שיש מאמרים – העמוד לא מופיע בתפריט ובפוטר, ולא נכנס לגוגל
+if (!articles.length) {
+  for (const n of ["header", "footer"]) partials[n] = partials[n].replace(/\s*<li><a href="\/knowledge"[^\n]*<\/li>/, "");
+}
+
 // ---- העמודים הרגילים ----
 for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".html"))) {
   const { meta, body } = parse(join(SRC, "pages", file));
   const path = file === "index.html" ? "/" : "/" + file.replace(/\.html$/, "");
+  if (file === "knowledge.html" && !articles.length) meta.noindex = true;
   render(meta, body.replace("{{articles}}", () => articleList), path, file);
 }
 
@@ -142,4 +159,9 @@ if (SITE_URL) {
     .join("\n")}\n</urlset>\n`;
   writeFileSync(join(OUT, "sitemap.xml"), sm);
 }
+// robots.txt: אתר התצוגה חסום לסורקים; באתר הסופי – הפניה ל-sitemap
+writeFileSync(
+  join(OUT, "robots.txt"),
+  PREVIEW ? "User-agent: *\nDisallow: /\n" : `User-agent: *\nAllow: /\n${SITE_URL ? `\nSitemap: ${SITE_URL}/sitemap.xml\n` : ""}`
+);
 console.log("done →", OUT);

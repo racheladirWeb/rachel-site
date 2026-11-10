@@ -102,16 +102,21 @@
   // ספירה עולה למספרים (למשל +20)
   document.querySelectorAll("[data-count]").forEach(function (el) {
     var target = Number(el.getAttribute("data-count")), prefix = el.getAttribute("data-prefix") || "";
-    if (reduced) return;
-    var start = null, dur = 1400, delay = 900;
-    el.textContent = prefix + "0";
+    // המספר האמיתי כתוב ב-HTML. מונים רק כשהדף גלוי, ובכל מקרה מבטיחים שבסוף יוצג המספר המלא.
+    if (reduced || document.hidden) return;
+    var start = null, dur = 1400, delay = 900, done = false;
+    var finish = function () { done = true; el.textContent = prefix + target; };
+    el.setAttribute("aria-label", prefix + target);
     function step(t) {
+      if (done) return;
       if (start === null) start = t + delay;
       var p = Math.min(1, Math.max(0, (t - start) / dur));
       el.textContent = prefix + Math.round(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
+      if (p < 1) requestAnimationFrame(step); else finish();
     }
     requestAnimationFrame(step);
+    setTimeout(finish, delay + dur + 400);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) finish(); });
   });
 
   // פס התקדמות גלילה
