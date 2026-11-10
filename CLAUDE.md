@@ -10,8 +10,8 @@
 ## בנייה והרצה
 - `node serve.mjs` בונה את האתר ומגיש אותו ב-http://localhost:4321
 - `node build.mjs` בונה ל-`dist/`. משתני סביבה: `BASE_PATH` (תת-נתיב), `PREVIEW=1` (noindex), `SITE_URL` (כשיהיה דומיין).
-- תצוגה מקדימה: GitHub Pages ב-https://racheladirweb.github.io/rachel-site/. נבנית אוטומטית בכל push ל-main.
-- האתר הסופי מתוכנן ל-Netlify (`netlify.toml`). טופס יצירת הקשר עובד רק שם.
+- האתר באוויר ב-https://adirlaw.co.il (Netlify, פרויקט rachel-adir). כל push ל-main מתעדכן אוטומטית. הטופס עובד ושולח מייל ל-rachel@adir-s.co.il.
+- הדומיין רשום ב-LiveDNS על שם רחל אדיר (עד 10/11/2031). שרתי ה-DNS הם של Netlify.
 
 ## קבצים שלא עולים
 `secrets.txt`, `photos/` ו-`dist/` מוחרגים ב-`.gitignore`. לא לשנות את זה.
